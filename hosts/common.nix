@@ -1,5 +1,5 @@
 # Common things found in configuration.nix, for all hosts
-{ lib, config, outputs, inputs, ... }:
+{ lib, config, outputs, inputs, pkgs, ... }:
 
 {
   # Bootloader.
@@ -50,6 +50,27 @@
     # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+  };
+
+  # Enabling ZSH
+  programs.zsh.enable = true;
+
+  # Install firefox.
+  programs.firefox.enable = true;
+
+  # Set up home manager
+  # home-manager.useGlobalPkgs = true;
+  # home-manager.useUserPackages = true;
+  # home-manager.users.devansh = import ../home-manager/home.nix {
+  #   inherit pkgs outputs inputs lib config;
+  # };
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.devansh = {
+    isNormalUser = true;
+    description = "Devansh";
+    extraGroups = [ "networkmanager" "wheel" ];
+    shell = pkgs.zsh;
   };
 
   # Set your time zone.

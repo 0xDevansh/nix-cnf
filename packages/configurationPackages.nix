@@ -6,6 +6,11 @@
     vim
     wget
     git
+    vscode
+    obsidian
+    spotify
+    jetbrains.webstorm
+    inkscape
   ];
   users.users.devansh.packages = with pkgs; [];
 }
